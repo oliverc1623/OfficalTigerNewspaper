@@ -95,18 +95,26 @@ public class JSONParser extends AsyncTask<String, Void, String> {
                     String date  = objectPost.getString("date");
                     date = "Date: " + date.substring(date.indexOf("-")+1, date.indexOf("T")) + "-" + date.substring(0, date.indexOf("-"));
 
-                    JSONObject betterFeaturedImage = objectPost.optJSONObject("better_featured_image");
-                    JSONObject mediaDetail = betterFeaturedImage.optJSONObject("media_details");
-                    JSONObject sizes = mediaDetail.optJSONObject("sizes");
-                    JSONObject thumbnail = sizes.optJSONObject("thumbnail");
-                    String ImgURL = thumbnail.optString("source_url");
+                    String imageString;
+                    String featured;
+                    //Comments are bad \(^-^)/
+                    try{
+                        JSONObject embeddedImageObject = objectPost.getJSONObject("_embedded");
+                        JSONArray featureMedia = embeddedImageObject.getJSONArray("wp:featuredmedia");
+                        JSONObject imageDetails = featureMedia.getJSONObject(0);
+                        JSONObject mediaDetailObject = imageDetails.getJSONObject("media_details");
+                        JSONObject sizes = mediaDetailObject.getJSONObject("sizes");
+                        JSONObject thumbnailImageVersion2 = sizes.optJSONObject("thumbnail");
+                        imageString = thumbnailImageVersion2.getString("source_url");
+                    } catch (Exception e) {
+                        Log.d("IMAGES", "Not working");
+                        imageString = "http://tigernewspaper.com/wordpress/wp-content/uploads/2017/07/TigerPlaceholderImage.jpg";
+                    }
+                    featured =  "http://tigernewspaper.com/wordpress/wp-content/uploads/2017/07/TigerPlaceholderImage.jpg";
 
                     JSONObject content = objectPost.optJSONObject("content");
                     String contentRendered = content.optString("rendered");
                     //contentRendered = android.text.Html.fromHtml(contentRendered).toString();
-
-                    JSONObject mainImage = sizes.optJSONObject("medium");
-                    String featured = mainImage.optString("source_url");
 
                     //get new JSON link
                     //JSONObject renderedLink = objectPost.optJSONObject("link");
@@ -116,7 +124,7 @@ public class JSONParser extends AsyncTask<String, Void, String> {
                     String link = objectPost.getString("link");
                     String fetchingTitle = objectPost.getString("title");
 
-                    PostItem currentPost = new PostItem(title, excerpt, name, date, ImgURL, contentRendered, featured, link);
+                    PostItem currentPost = new PostItem(title, excerpt, name, date, imageString, contentRendered, featured, link);
 
                     postsArray.add(currentPost);
 
