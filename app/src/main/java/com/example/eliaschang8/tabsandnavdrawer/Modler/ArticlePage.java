@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,12 +17,13 @@ import com.example.eliaschang8.tabsandnavdrawer.R;
 import com.github.fafaldo.fabtoolbar.widget.FABToolbarLayout;
 
 import java.util.ArrayList;
+
 /*
 Works! Opens. Don't click on first link
 */
 public class ArticlePage extends AppCompatActivity {
 
-    ArrayList<String> pictureArray = new ArrayList<String>(); //delete later
+    ArrayList<String> pictureArray = new ArrayList<String>();
     TextView articleContent, date, authorName, title;
     ScrollView contentScrollView;
 
@@ -59,7 +61,7 @@ public class ArticlePage extends AppCompatActivity {
 
         int http;
         int a = 0;
-        while (a < contentValue .length()) {
+        while (a < contentValue.length()) {
             http = contentValue.indexOf("http://tigernewspaper.com/wordpress/wp-content/", a);
             if (http == -1)
                 break;
@@ -68,6 +70,12 @@ public class ArticlePage extends AppCompatActivity {
             pictureArray.add(urlOne);
             a = http + urlOne.length();
         }
+
+        Intent intent = new Intent(ArticlePage.this, CustomPagerAdapter.class);
+        intent.putExtra("imageCount", pictureArray.size());
+
+        Log.d("NUMBER OF IMAGES:", "" + pictureArray.size());
+
 //extract from Bundle
         contentValue = android.text.Html.fromHtml(contentValue).toString();
         articleContent.setText(contentValue);
