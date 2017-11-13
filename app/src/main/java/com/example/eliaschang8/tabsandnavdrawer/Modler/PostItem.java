@@ -1,7 +1,6 @@
 package com.example.eliaschang8.tabsandnavdrawer.Modler;
 
 import android.util.Log;
-import android.widget.ImageView;
 
 import java.util.ArrayList;
 
@@ -10,11 +9,19 @@ import java.util.ArrayList;
  */
 
 public class PostItem {
-    private String title, excerpt, author, date, content, featuredImage;
+    private String title, excerpt, author, date, content, featuredImage, link;
     private String thumbnail;
     private ArrayList<String> urls = new ArrayList<>();
 
-    public PostItem(String title, String excerpt, String author, String date, String thumbnail, String content, String featuredImage) {
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+
+    public PostItem(String title, String excerpt, String author, String date, String thumbnail, String content, String featuredImage, String link) {
         this.title = title;
         this.excerpt = excerpt;
         this.author = author;
@@ -22,6 +29,8 @@ public class PostItem {
         this.thumbnail = thumbnail;
         this.content = content;
         this.featuredImage = featuredImage;
+        this.link = link;
+
         //this.urls = urls;
     }
 
@@ -95,3 +104,4 @@ public class PostItem {
         this.featuredImage = featuredImage;
     }
 }
+

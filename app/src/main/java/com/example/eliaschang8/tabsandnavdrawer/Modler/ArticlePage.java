@@ -1,10 +1,10 @@
 package com.example.eliaschang8.tabsandnavdrawer.Modler;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Vibrator;
+import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,7 +16,9 @@ import com.example.eliaschang8.tabsandnavdrawer.R;
 import com.github.fafaldo.fabtoolbar.widget.FABToolbarLayout;
 
 import java.util.ArrayList;
-
+/*
+Works! Opens. Don't click on first link
+*/
 public class ArticlePage extends AppCompatActivity {
 
     ArrayList<String> pictureArray = new ArrayList<String>(); //delete later
@@ -28,7 +30,7 @@ public class ArticlePage extends AppCompatActivity {
     private LinearLayout toolbar;
     ImageView shareButton, saveButton;
     private boolean checked = false;
-    private String URL;
+    private String URL, linkUrl, titleToShare;
 
     public SharedPreferences.Editor editor;
 
@@ -66,13 +68,15 @@ public class ArticlePage extends AppCompatActivity {
             pictureArray.add(urlOne);
             a = http + urlOne.length();
         }
-
+//extract from Bundle
         contentValue = android.text.Html.fromHtml(contentValue).toString();
         articleContent.setText(contentValue);
         String authorValue = extras.getString("AUTHOR");
         authorName.setText(authorValue);
         String dateValue = extras.getString("DATE");
         date.setText(dateValue);
+        linkUrl = extras.getString("LINK");
+        titleToShare = extras.getString("TITLE");
 
         editor = getSharedPreferences(SAVED_ARTICLE_KEY, MODE_PRIVATE).edit();
     }
@@ -102,9 +106,19 @@ public class ArticlePage extends AppCompatActivity {
         shareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ArticlePage.this, "Shared!", Toast.LENGTH_SHORT).show();
-                Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-                vibrator.vibrate(500);
+               /*Toast.makeText(ArticlePage.this, "Shared!", Toast.LENGTH_SHORT).show();
+               Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+               vibrator.vibrate(500);*/
+                shareIt();
+            }
+
+            private void shareIt() {
+                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                sharingIntent.setType("text/plain");
+                String shareBody= linkUrl; //todo put URL in here
+                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, titleToShare); //TODO change subject
+                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+                startActivity(Intent.createChooser(sharingIntent, "Share via")); //can change this string if
             }
         });
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -150,21 +164,22 @@ public class ArticlePage extends AppCompatActivity {
 //HAS NOTHING IMPT NOT USED
 
     //executes Async
-    /*private void loadImageFromUrl(String url) {
-        Picasso.with(this).load(url).placeholder(R.mipmap.ic_launcher)
-                .error(R.mipmap.ic_launcher)
-                .into(imageView,
-                        new com.squareup.picasso.Callback() {
-                    @Override
-                    public void onSuccess() {
+   /*private void loadImageFromUrl(String url) {
+       Picasso.with(this).load(url).placeholder(R.mipmap.ic_launcher)
+               .error(R.mipmap.ic_launcher)
+               .into(imageView,
+                       new com.squareup.picasso.Callback() {
+                   @Override
+                   public void onSuccess() {
 
-                    }
+                   }
 
-                    @Override
-                    public void onError() {
+                   @Override
+                   public void onError() {
 
-                    }
-                });
-    }*/
+                   }
+               });
+   }*/
 
 }
+

@@ -1,32 +1,23 @@
 package com.example.eliaschang8.tabsandnavdrawer.Modler;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.PagerAdapter;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-
-import com.example.eliaschang8.tabsandnavdrawer.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Created by csaper6 on 5/15/17.
@@ -117,8 +108,15 @@ public class JSONParser extends AsyncTask<String, Void, String> {
                     JSONObject mainImage = sizes.optJSONObject("medium");
                     String featured = mainImage.optString("source_url");
 
+                    //get new JSON link
+                    //JSONObject renderedLink = objectPost.optJSONObject("link");
+                    //String link = renderedLink.optString("rendered");
+                    //link = android.text.Html.fromHtml(link).toString();
 
-                    PostItem currentPost = new PostItem(title, excerpt, name, date, ImgURL, contentRendered, featured);
+                    String link = objectPost.getString("link");
+                    String fetchingTitle = objectPost.getString("title");
+
+                    PostItem currentPost = new PostItem(title, excerpt, name, date, ImgURL, contentRendered, featured, link);
 
                     postsArray.add(currentPost);
 
@@ -137,7 +135,7 @@ public class JSONParser extends AsyncTask<String, Void, String> {
         PostAdapter adapter = new PostAdapter(fragmentActivity.getActivity(), postsArray);
 
         list.setAdapter(adapter);
-        
+
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -150,6 +148,7 @@ public class JSONParser extends AsyncTask<String, Void, String> {
                 bundle.putString("AUTHOR", postsArray.get(position).getAuthor());
                 bundle.putString("CONTENT", postsArray.get(position).getContent());
                 bundle.putString("FEATURED", postsArray.get(position).getFeaturedImage());
+                bundle.putString("LINK", postsArray.get(position).getLink());
                 intent.putExtras(bundle);
 
                 fragmentActivity.startActivity(intent);
@@ -157,3 +156,4 @@ public class JSONParser extends AsyncTask<String, Void, String> {
         });
     }
 }
+
