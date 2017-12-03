@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16sp"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     tools:context="com.example.eliaschang8.tabsandnavdrawer.Modler.ArticlePage">
 
-
+    <!--
     <FrameLayout
         android:id="@+id/user_list_container"
         android:layout_width="match_parent"
@@ -52,4 +51,14 @@
         android:layout_toEndOf="@+id/button_submit"
         android:layout_marginLeft="70dp"
         android:layout_marginStart="70dp" />
+
+        -->
+
+    <WebView
+        android:id="@+id/webView_forum"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true" />
+
 </RelativeLayout>

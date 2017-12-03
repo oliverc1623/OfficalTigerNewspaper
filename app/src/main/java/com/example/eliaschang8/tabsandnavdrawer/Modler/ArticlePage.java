@@ -11,11 +11,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.eliaschang8.tabsandnavdrawer.R;
 import com.github.fafaldo.fabtoolbar.widget.FABToolbarLayout;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 /*
@@ -33,6 +34,7 @@ public class ArticlePage extends AppCompatActivity {
     ImageView shareButton, saveButton;
     private boolean checked = false;
     private String URL, linkUrl, titleToShare;
+    private String href;
 
     public SharedPreferences.Editor editor;
 
@@ -48,7 +50,6 @@ public class ArticlePage extends AppCompatActivity {
         wireWidgets();
         initialize();
         setOnClickListeners();
-
 
         Bundle extras = getIntent().getExtras();
         String titleValue = extras.getString("TITLE");
@@ -76,7 +77,7 @@ public class ArticlePage extends AppCompatActivity {
 
         Log.d("NUMBER OF IMAGES:", "" + pictureArray.size());
 
-//extract from Bundle
+        //extract from Bundle
         contentValue = android.text.Html.fromHtml(contentValue).toString();
         articleContent.setText(contentValue);
         String authorValue = extras.getString("AUTHOR");
@@ -85,6 +86,7 @@ public class ArticlePage extends AppCompatActivity {
         date.setText(dateValue);
         linkUrl = extras.getString("LINK");
         titleToShare = extras.getString("TITLE");
+        href = extras.getString("HREF");
 
         editor = getSharedPreferences(SAVED_ARTICLE_KEY, MODE_PRIVATE).edit();
     }
@@ -130,11 +132,45 @@ public class ArticlePage extends AppCompatActivity {
             }
         });
         saveButton.setOnClickListener(new View.OnClickListener() {
+            public static final String TAG = "ON SAVED CLICK:";
+
             @Override
             public void onClick(View v) {
-                editor.putString("saved_article", URL);
-                editor.commit();
-                Toast.makeText(ArticlePage.this, URL.toString(), Toast.LENGTH_SHORT).show();
+
+                Log.d(TAG, "hi");
+                Log.d(TAG, href);
+
+                Intent i = new Intent(getBaseContext(), SavedActivity.class);
+                i.putExtra("URLjson", href);
+                startActivity(i);
+
+                //*** Yohans old code
+//                Bundle extras = getIntent().getExtras();
+//                String title = extras.getString("TITLE");
+//                String date = extras.getString("DATE");
+//                String author = extras.getString("AUTHOR");
+//                String content = extras.getString("CONTENT");
+//                String featured = extras.getString("FEATURED");
+//                String link = extras.getString("LINK");
+//                String jsonFile = loadJSONFromAsset();
+//                Boolean check = false;
+//                SaveToJson saveToJson = new SaveToJson(jsonFile, title, date, author, content, featured, link);
+//                try {
+//                    if (saveToJson.saveToJson()) {
+//                        check = true;
+//                    }
+//
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//                if (check) {
+//                    Toast.makeText(ArticlePage.this, "article content saved", Toast.LENGTH_SHORT).show();
+//                }
+//                else
+//                {
+//                    Toast.makeText(ArticlePage.this, "FAILED!!@!@!@!@!@!@!@", Toast.LENGTH_SHORT).show();
+//                }
+
             }
         });
         fab.setOnClickListener(new View.OnClickListener() {
@@ -156,6 +192,31 @@ public class ArticlePage extends AppCompatActivity {
         {
             super.onBackPressed();
         }
+    }
+
+    public String loadJSONFromAsset() {
+        String json = null;
+        try {
+
+            InputStream is = getAssets().open("savedArticle.json");
+
+            int size = is.available();
+
+            byte[] buffer = new byte[size];
+
+            is.read(buffer);
+
+            is.close();
+
+            json = new String(buffer, "UTF-8");
+
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
+
     }
 
 //    private void loadUrls() { //leave this alone

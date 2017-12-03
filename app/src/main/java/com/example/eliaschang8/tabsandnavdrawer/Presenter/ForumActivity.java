@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -53,84 +54,79 @@ public class ForumActivity extends AppCompatActivity  {
 
 //    DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
-
+    private WebView webView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forum);
-        userFragment = null;
-        final FragmentManager fm = getSupportFragmentManager();
-        if(fm.findFragmentByTag("UserFragment")==null){
-            userFragment = new UserFragment();
-            fm.beginTransaction().add(R.id.user_list_container, userFragment, "UserFragment").commit();
 
+        webView = (WebView)findViewById(R.id.webView_forum);
+        webView.loadUrl("http://tigernewspaper.com/wordpress/topic/sphs/");
 
-        }
+        // userFragment = null;
+//        final FragmentManager fm = getSupportFragmentManager();
+//        if(fm.findFragmentByTag("UserFragment")==null){
+//            userFragment = new UserFragment();
+//            fm.beginTransaction().add(R.id.user_list_container, userFragment, "UserFragment").commit();
+//
+//
+//        }
 
+        //tempUser = new User("tigers", "Thurs, 25 May 2017 01:25:45", "Hello this is my first comment");
+        //wireWidgets();
+        //checkSign();
 
-
-        tempUser = new User("tigers", "Thurs, 25 May 2017 01:25:45", "Hello this is my first comment");
-        wireWidgets();
-        checkSign();
-
-        submit_Button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(checkSignedIn && editText_comment.getText().length()>0){
-                    inputText = editText_comment.getText().toString();
-                    DateFormat df = new SimpleDateFormat("EEE, d MMM yyyy, HH: mm");
-                    timeStamp = df.format(Calendar.getInstance().getTime());
-
-
-/**
- Bundle bundle = new Bundle();
- bundle.putString(TIME_STAMP, timeStamp);
- bundle.putString(COMMENT_TEXT, inputText);
- bundle.putString(USERNAME_TEXT, tempUser.getUsername());
- **/
-                    userFragment.addComments(timeStamp, inputText, tempUser.getUsername());
-
-//                  FragmentManager fm1 = getSupportFragmentManager();
-//                   fm1.putFragment(bundle, KEY, fm1.findFragmentByTag("UserFragment"));
-                    //Log.d("TAG", timeStamp);
-                    // fm1.findFragmentByTag("UserFragment").
-
-                    /**
-                     * public String baseUrl;
-                     * public String username;
-                     * (these would be above the constructor)
-                     * baseUrl = "gmail...";
-                     * commentText.setText(new SWPersonSearch().execute(baseUrl));
-                     **/
-
-
-
-
-                    //logInURL = tempUser.getLogInURL();
-
-
-
-
-                }
-                else if(checkSignedIn && editText_comment.getText().length()==0){
-                    Toast.makeText(ForumActivity.this, "Please add text to post a comment", Toast.LENGTH_LONG).show();
-                }
-                else {
-                    Toast.makeText(ForumActivity.this, "Please sign in to comment", Toast.LENGTH_LONG).show();
-                }
-
-                delete_Button.setVisibility(View.VISIBLE);
-            }
-        });
-
-        delete_Button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Toast.makeText(ForumActivity.this, "You are now deleting this comment", Toast.LENGTH_LONG).show();
-                userFragment.deleteComment();
-            }
-        });
+//        submit_Button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if(checkSignedIn && editText_comment.getText().length()>0){
+//                    inputText = editText_comment.getText().toString();
+//                    DateFormat df = new SimpleDateFormat("EEE, d MMM yyyy, HH: mm");
+//                    timeStamp = df.format(Calendar.getInstance().getTime());
+//
+//
+///**
+// Bundle bundle = new Bundle();
+// bundle.putString(TIME_STAMP, timeStamp);
+// bundle.putString(COMMENT_TEXT, inputText);
+// bundle.putString(USERNAME_TEXT, tempUser.getUsername());
+// **/
+//                    userFragment.addComments(timeStamp, inputText, tempUser.getUsername());
+//
+////                  FragmentManager fm1 = getSupportFragmentManager();
+////                   fm1.putFragment(bundle, KEY, fm1.findFragmentByTag("UserFragment"));
+//                    //Log.d("TAG", timeStamp);
+//                    // fm1.findFragmentByTag("UserFragment").
+//
+//                    /**
+//                     * public String baseUrl;
+//                     * public String username;
+//                     * (these would be above the constructor)
+//                     * baseUrl = "gmail...";
+//                     * commentText.setText(new SWPersonSearch().execute(baseUrl));
+//                     **/
+//                    //logInURL = tempUser.getLogInURL();
+//
+//                }
+//                else if(checkSignedIn && editText_comment.getText().length()==0){
+//                    Toast.makeText(ForumActivity.this, "Please add text to post a comment", Toast.LENGTH_LONG).show();
+//                }
+//                else {
+//                    Toast.makeText(ForumActivity.this, "Please sign in to comment", Toast.LENGTH_LONG).show();
+//                }
+//
+//                delete_Button.setVisibility(View.VISIBLE);
+//            }
+//        });
+//
+//        delete_Button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                Toast.makeText(ForumActivity.this, "You are now deleting this comment", Toast.LENGTH_LONG).show();
+//                userFragment.deleteComment();
+//            }
+//        });
 
 
     }
@@ -146,14 +142,14 @@ public class ForumActivity extends AppCompatActivity  {
     }
 
     private void wireWidgets() {
-        submit_Button = (Button)(findViewById(R.id.button_submit));
-        editText_comment = (EditText)(findViewById(R.id.editText_comment));
-        checkSignedIn=true;
-        usernameText = (TextView) findViewById(R.id.textView_username);
-        timeStampText = (TextView) findViewById(R.id.textView_timestamp);
-        commentText = (TextView) findViewById(R.id.textView_comment);
-        delete_Button = (Button) findViewById(R.id.button_delete);
-        delete_Button.setVisibility(View.INVISIBLE);
+//        submit_Button = (Button)(findViewById(R.id.button_submit));
+//        editText_comment = (EditText)(findViewById(R.id.editText_comment));
+//        checkSignedIn=true;
+//        usernameText = (TextView) findViewById(R.id.textView_username);
+//        timeStampText = (TextView) findViewById(R.id.textView_timestamp);
+//        commentText = (TextView) findViewById(R.id.textView_comment);
+//        //delete_Button = (Button) findViewById(R.id.button_delete);
+//        delete_Button.setVisibility(View.INVISIBLE);
 
     }
 

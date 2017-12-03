@@ -28,7 +28,6 @@ public class JSONParser extends AsyncTask<String, Void, String> {
     private ArrayList<String> imageUrlList = new ArrayList<>();
     private String[] ActualURL = null;
 
-
     String postJSON = "";
 
     private ArrayList<PostItem>postsArray;
@@ -72,7 +71,15 @@ public class JSONParser extends AsyncTask<String, Void, String> {
 
         if(s != null){
             try {
-                JSONArray postsJSON = new JSONArray(postJSON);
+
+                JSONArray postsJSON = null;
+
+                if(postJSON.charAt(0) == '['){
+                    postsJSON = new JSONArray(postJSON);
+                } else {
+                    postJSON = "[" + postJSON + "]";
+                    postsJSON = new JSONArray(postJSON);
+                }
 
                 for(int i = 0; i < postsJSON.length(); i++){
 
@@ -82,18 +89,34 @@ public class JSONParser extends AsyncTask<String, Void, String> {
                     JSONObject renderedTitle = objectPost.optJSONObject("title");
                     String title = renderedTitle.optString("rendered");
                     title = android.text.Html.fromHtml(title).toString();
+
                     //Get the excerpt
                     JSONObject renderedExcerpt = objectPost.optJSONObject("excerpt");
                     String excerpt = renderedExcerpt.optString("rendered");
                     excerpt = android.text.Html.fromHtml(excerpt).toString();
-                    //Get the author
-                    JSONObject _embed = objectPost.optJSONObject("_embedded");
-                    JSONArray array = _embed.optJSONArray("author");
-                    JSONObject author = array.optJSONObject(0);
-                    String name = author.optString("name");
 
+                    //Get the author
+                    String name = "";
+                    try{
+                        JSONObject _embed = objectPost.optJSONObject("_embedded");
+                        JSONArray array = _embed.optJSONArray("author");
+                        JSONObject author = array.optJSONObject(0);
+                        name = author.optString("name");
+                    } catch (Exception e){
+                        name = "Tiger Staff";
+                    }
+
+
+                    //Get the date
                     String date  = objectPost.getString("date");
                     date = "Date: " + date.substring(date.indexOf("-")+1, date.indexOf("T")) + "-" + date.substring(0, date.indexOf("-"));
+
+                    //Get the JSON LINK
+                    JSONObject _links = objectPost.getJSONObject("_links");
+                    JSONArray self = _links.getJSONArray("self");
+                    JSONObject slef_zero = self.getJSONObject(0);
+                    String href = slef_zero.getString("href");
+
 
                     String imageString;
                     String featured;
@@ -104,7 +127,7 @@ public class JSONParser extends AsyncTask<String, Void, String> {
                         JSONObject imageDetails = featureMedia.getJSONObject(0);
                         JSONObject mediaDetailObject = imageDetails.getJSONObject("media_details");
                         JSONObject sizes = mediaDetailObject.getJSONObject("sizes");
-                        JSONObject thumbnailImageVersion2 = sizes.optJSONObject("thumbnail");
+                        JSONObject thumbnailImageVersion2 = sizes.optJSONObject("medium");
                         imageString = thumbnailImageVersion2.getString("source_url");
                     } catch (Exception e) {
                         Log.d("IMAGES", "Not working");
@@ -124,7 +147,7 @@ public class JSONParser extends AsyncTask<String, Void, String> {
                     String link = objectPost.getString("link");
                     String fetchingTitle = objectPost.getString("title");
 
-                    PostItem currentPost = new PostItem(title, excerpt, name, date, imageString, contentRendered, featured, link);
+                    PostItem currentPost = new PostItem(title, excerpt, name, date, imageString, contentRendered, featured, link, href);
 
                     postsArray.add(currentPost);
 
@@ -157,6 +180,7 @@ public class JSONParser extends AsyncTask<String, Void, String> {
                 bundle.putString("CONTENT", postsArray.get(position).getContent());
                 bundle.putString("FEATURED", postsArray.get(position).getFeaturedImage());
                 bundle.putString("LINK", postsArray.get(position).getLink());
+                bundle.putString("HREF",postsArray.get(position).getHref());
                 intent.putExtras(bundle);
 
                 fragmentActivity.startActivity(intent);

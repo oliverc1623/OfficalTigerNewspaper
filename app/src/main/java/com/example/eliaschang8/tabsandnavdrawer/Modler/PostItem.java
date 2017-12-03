@@ -2,6 +2,8 @@ package com.example.eliaschang8.tabsandnavdrawer.Modler;
 
 import android.util.Log;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 /**
@@ -9,9 +11,10 @@ import java.util.ArrayList;
  */
 
 public class PostItem {
-    private String title, excerpt, author, date, content, featuredImage, link;
+    private String title, excerpt, author, date, content, featuredImage, link, href;
     private String thumbnail;
     private ArrayList<String> urls = new ArrayList<>();
+    private JSONObject object;
 
     public String getLink() {
         return link;
@@ -21,7 +24,8 @@ public class PostItem {
         this.link = link;
     }
 
-    public PostItem(String title, String excerpt, String author, String date, String thumbnail, String content, String featuredImage, String link) {
+
+    public PostItem(String title, String excerpt, String author, String date, String thumbnail, String content, String featuredImage, String link, String href) {
         this.title = title;
         this.excerpt = excerpt;
         this.author = author;
@@ -30,7 +34,8 @@ public class PostItem {
         this.content = content;
         this.featuredImage = featuredImage;
         this.link = link;
-
+        this.href = href;
+        //this.object = object;
         //this.urls = urls;
     }
 
@@ -102,6 +107,14 @@ public class PostItem {
 
     public void setFeaturedImage(String featuredImage) {
         this.featuredImage = featuredImage;
+    }
+
+    public String getHref() {
+        return href;
+    }
+
+    public void setHref(String href) {
+        this.href = href;
     }
 }
 

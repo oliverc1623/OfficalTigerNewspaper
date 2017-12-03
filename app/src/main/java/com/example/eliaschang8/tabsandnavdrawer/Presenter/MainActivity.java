@@ -17,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.eliaschang8.tabsandnavdrawer.Modler.SavedActivity;
 import com.example.eliaschang8.tabsandnavdrawer.Modler.TestScreen;
 import com.example.eliaschang8.tabsandnavdrawer.Modler.ViewPagerAdapter;
 import com.example.eliaschang8.tabsandnavdrawer.R;
@@ -125,15 +126,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
            Intent i = new Intent(this, ForumActivity.class);
             startActivity(i);
         } else if (id == R.id.nav_saved_articles) {
-            viewPager.setCurrentItem(1);
-        } else if (id == R.id.nav_notifications) {
+            Intent i = new Intent(this, SavedActivity.class);
+            startActivity(i);
+        } //else if (id == R.id.nav_notifications) {
             viewPager.setCurrentItem(2);
             //UtilsTheme.changeToTheme(this, UtilsTheme.THEME_DARK);
-        } else if (id == R.id.nav_settings){
-            Intent intent = new Intent(this, TestScreen.class);
-            intent.putExtra("string", "Go to other Activity by NavigationView item cliked!");
-            startActivity(intent);
-        }
+        //} else if (id == R.id.nav_settings){
+        //    Intent intent = new Intent(this, TestScreen.class);
+        //    intent.putExtra("string", "Go to other Activity by NavigationView item cliked!");
+        //    startActivity(intent);
+       ///}
 
         drawer.closeDrawer(GravityCompat.START);
         return true;

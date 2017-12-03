@@ -14,6 +14,7 @@
 
     </group>
 
+    <!--
     <group android:id="@+id/bottom" android:checkableBehavior="none">
         <item
             android:id="@+id/nav_notifications"
@@ -25,4 +26,5 @@
             android:icon="@drawable/ic_settings_black_24dp"
             android:title="Settings" />
     </group>
+    -->
 </menu>

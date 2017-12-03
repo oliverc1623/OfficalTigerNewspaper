@@ -9,6 +9,7 @@ import com.example.eliaschang8.tabsandnavdrawer.Presenter.MostPopular;
 import com.example.eliaschang8.tabsandnavdrawer.Presenter.MostRecent;
 import com.example.eliaschang8.tabsandnavdrawer.Presenter.News;
 import com.example.eliaschang8.tabsandnavdrawer.Presenter.Opinion;
+import com.example.eliaschang8.tabsandnavdrawer.Presenter.Saved;
 import com.example.eliaschang8.tabsandnavdrawer.Presenter.Sports;
 
 /**
@@ -31,7 +32,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
             return new Sports();
         }else if (position == 3) {
             return new Feature();
-        }else return new Opinion();
+        } else return new Opinion();
     }
 
     @Override

@@ -22,7 +22,7 @@ public class News extends Fragment {
     private static final String TAG = "TAG";
     private ArrayList<PostItem> postsArray;
     private ListView list;
-    private static final String URL = "http://tigernewspaper.com/wordpress/wp-json/wp/v2/posts?filter[cat]=4&_embed";
+    private static final String URL = "http://tigernewspaper.com/wp-json/wp/v2/posts?filter[cat]=4&_embed";
 
     @Nullable
     @Override
