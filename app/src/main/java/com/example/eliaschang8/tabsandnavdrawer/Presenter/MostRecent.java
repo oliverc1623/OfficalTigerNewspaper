@@ -52,14 +52,11 @@ public class MostRecent extends Fragment {
         if(list != null){
             Log.d("MostRecent", "Yes");
         }
-
         return view;
-
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
     }
 }
