@@ -18,7 +18,9 @@
         <activity android:name=".Modler.DesActivity" />
         <activity android:name=".Modler.TestScreen" />
         <activity android:name=".Modler.ArticlePage" />
-        <activity android:name=".Presenter.SplashActivity">
+        <activity
+            android:name=".Presenter.SplashActivity"
+            android:theme="@style/SplashTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

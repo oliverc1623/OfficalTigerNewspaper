@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/YoahTiger.iml" filepath="$PROJECT_DIR$/YoahTiger.iml" />
+      <module fileurl="file://$PROJECT_DIR$/OfficalTigerNewspaper.iml" filepath="$PROJECT_DIR$/OfficalTigerNewspaper.iml" />
+      <module fileurl="file://C:\Users\Evan\AndroidStudioProjects\OfficalTigerNewspaper-master\OfficalTigerNewspaper\YoahTiger.iml" filepath="C:\Users\Evan\AndroidStudioProjects\OfficalTigerNewspaper-master\OfficalTigerNewspaper\YoahTiger.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\Evan\AndroidStudioProjects\OfficalTigerNewspaper-master\OfficalTigerNewspaper\app\app.iml" filepath="C:\Users\Evan\AndroidStudioProjects\OfficalTigerNewspaper-master\OfficalTigerNewspaper\app\app.iml" />
     </modules>
   </component>
 </project>
